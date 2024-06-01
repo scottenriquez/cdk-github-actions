@@ -6,7 +6,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: clone
+      - name: Clone
         uses: actions/checkout@v3
       - name: install dependencies
         run: |
@@ -15,11 +15,11 @@ jobs:
           sudo npm install -g aws-cdk
           npm install
         working-directory: infrastructure
-      - name: synth
+      - name: Synth
         run: |
           cdk synth
         working-directory: infrastructure
-      - name: run unit tests
+      - name: Run unit tests
         run: |
           npm test
         working-directory: infrastructure

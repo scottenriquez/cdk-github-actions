@@ -2,7 +2,7 @@ name: cdk-deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 env:
   AWS_REGION : us-west-2
@@ -14,26 +14,26 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: clone
+      - name: Clone
         uses: actions/checkout@v3
-      - name: authenticate
+      - name: Authenticate
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
           role-to-assume: arn:aws:iam::196736724465:role/GitHubAction-AssumeRoleWithAction
           role-session-name: GitHub-AWS-Federated-OIDC
           aws-region: ${{ env.AWS_REGION }}
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt update -y
           sudo apt install nodejs npm -y
           sudo npm install -g aws-cdk
           npm install
         working-directory: infrastructure
-      - name: synth
+      - name: Synth
         run: |
           cdk synth
         working-directory: infrastructure
-      - name: deploy
+      - name: Deploy
         run: |
-          cdk deploy
+          cdk deploy --context stackName=${GITHUB_REF#refs/heads/}
         working-directory: infrastructure
