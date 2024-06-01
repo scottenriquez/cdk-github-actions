@@ -1,0 +1,25 @@
+name: cdk-unit-tests
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: |
+          sudo apt update -y
+          sudo apt install nodejs npm -y
+          sudo npm install -g aws-cdk
+          npm install
+        working-directory: infrastructure
+      - name: synth
+        run: |
+          cdk synth
+        working-directory: infrastructure
+      - name: run unit tests
+        run: |
+          npm test
+        working-directory: infrastructure
