@@ -35,5 +35,5 @@ jobs:
         working-directory: infrastructure
       - name: Deploy
         run: |
-          cdk deploy --context stackName=${GITHUB_REF#refs/heads/}
+          cdk deploy --context stackName=Infrastructure-${GITHUB_REF#refs/heads/}
         working-directory: infrastructure
